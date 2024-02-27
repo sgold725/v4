@@ -1,0 +1,7 @@
+﻿
+		/*
+ * Copyright (C) 2007 Trivantis Corporation
+ */
+
+	
+function disableMiddleAndRightClick(e){var d=getDisplayDocument();if (!e||d.all) e=event;var k;if (d.all) k=event.button;if (d.layers||d.getElementById&&!d.all) k=e.which;if (k==2||k==3){console.log('protect content: mouse middle and right clicks');return cancelEvent(e);}};function disableCtrlKeys(e){var d=getDisplayDocument();if (!e||d.all) e=event;var A=getKeyCode(e);var B=(window.event?A:e.charCode);var C=String.fromCharCode(B).toLowerCase();var D=(e.ctrlKey||e.metaKey);if ((D&&(C=='a'||C=='c'||C=='s'||C=='u'||C=='v'||C=='x'))||A==123){console.log('protect content: ignore key: '+(D?'ctrl/meta+'+C:A==123?'F12':'?'));return cancelEvent(e);};console.log('protect content: allow key: '+(D?'ctrl/meta=[true] ':'')+' keyCode=['+A+'] iCharCode=['+B+'] sChar=['+C+']');};function trivProtectContent(){var d=getDisplayDocument();if (d.layers){d.captureEvents(Event.MOUSEDOWN);d.captureEvents(Event.KEYPRESS|Event.KEYDOWN);};d.onmousedown=disableMiddleAndRightClick;d.oncontextmenu=cancelEvent;if (d.onkeydown==u){console.log('trivProtectContent: setting document.onkeydown');d.onkeydown=disableCtrlKeys;}else{console.log('trivProtectContent: wrapping document.onkeydown');console.log('trivProtectContent: previous document.onkeydown: '+d.onkeydown.toString());var A=d.onkeydown;var B=function(e) { return (disableCtrlKeys(e)===f?f:A(e));};d.onkeydown=B;}}
